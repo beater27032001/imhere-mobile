@@ -9,36 +9,29 @@ import {
 import { Participant } from "@/src/components/Participant";
 
 import { styles } from "./styles";
+import { useState } from "react";
 
 export default function Index() {
-  const participants = [
-    "José",
-    "Carlos",
-    "João",
-    "Laura",
-    "Pedro",
-    "Ricardo",
-    "Daniel",
-    "Rafael",
-    "Paula",
-    "Luciana",
-    "Patricia",
-    "Paulo",
-    "Leda",
-    "Sinflo",
-  ];
+  const [participants, setParticipants] = useState<string[]>([]);
+  const [participantName, setParticipantName] = useState("");
+
   function handleParticipantAdd() {
-    if (participants.includes("Sinflo")) {
-      Alert.alert(
-        "Participante Existente",
-        "Ja existe um participante com esse nome!"
-      );
+    if (!participantName) {
+      return Alert.alert("Erro", "O nome do participante é obrigatório.");
     }
+    if (participants.includes(participantName)) {
+      return Alert.alert("Erro", "Este participante já foi adicionado.");
+    }
+
+    setParticipants((prevParticipants) => [...prevParticipants, participantName]);
+    setParticipantName("");
   }
 
   function handleParticipantRemove(name: string) {
+    
+
     Alert.alert("Remover", `Deseja remover o participante ${name}?`, [
-      { text: "Sim", onPress: () => Alert.alert("Removido") },
+      { text: "Sim", onPress: () => setParticipants((prevParticipants) => prevParticipants.filter((participant) => participant !== name)) },
       { text: "Não", style: "cancel" },
     ]);
   }
@@ -54,6 +47,8 @@ export default function Index() {
           style={styles.input}
           placeholder="Nome do participante"
           placeholderTextColor="#6B6B6B"
+          onChangeText={setParticipantName}
+          value={participantName}
         />
 
         <TouchableOpacity style={styles.button} onPress={handleParticipantAdd}>
@@ -79,15 +74,7 @@ export default function Index() {
         )}
       />
 
-      {/* <ScrollView>
-        {participants.map((name) => (
-          <Participant
-            key={name}
-            name={name}
-            onRemove={handleParticipantRemove}
-          />
-        ))}
-      </ScrollView> */}
+      
     </View>
   );
 }
