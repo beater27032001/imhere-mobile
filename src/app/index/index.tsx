@@ -11,7 +11,7 @@ import { Participant } from "@/src/components/Participant";
 import { styles } from "./styles";
 import { useState } from "react";
 
-export default function Index() {
+export default function Home() {
   const [participants, setParticipants] = useState<string[]>([]);
   const [participantName, setParticipantName] = useState("");
 
